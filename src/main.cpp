@@ -1,18 +1,34 @@
 #include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
 
-// put function declarations here:
-int myFunction(int, int);
+Adafruit_BNO055 bno = Adafruit_BNO055(55);
+
+unsigned long startMillis;
+unsigned long currentMillis;
+
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  bno.begin();
+  bno.setExtCrystalUse(true);
+  startMillis = millis();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  currentMillis = millis();
+
+  if (currentMillis - startMillis > 1000) {
+    imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+    Serial.print(gyro.x());
+    Serial.println("");
+    float dt = (float) currentMillis - startMillis;
+
+
+    startMillis = millis();
+  }
+
 }
