@@ -9,6 +9,7 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
 unsigned long startMillis;
 unsigned long currentMillis;
+float total_roll;
 
 
 void setup() {
@@ -16,13 +17,14 @@ void setup() {
   bno.begin();
   bno.setExtCrystalUse(true);
   startMillis = millis();
+  total_roll = 0;
 }
 
 void loop() {
   unsigned long currentMillis = millis();
 
   if (currentMillis - startMillis >= 1000) {
-    startMillis = test(startMillis, currentMillis, bno);
+    startMillis = roll(startMillis, currentMillis, bno, total_roll);
   }
 
 }

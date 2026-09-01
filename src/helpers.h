@@ -9,4 +9,4 @@
 
 std::vector<float> f(std::vector<float> angles);
 
-unsigned long test(unsigned long startMillis, unsigned long currentMillis, Adafruit_BNO055 bno);
+unsigned long roll(unsigned long startMillis, unsigned long currentMillis, Adafruit_BNO055 bno, float total_roll);
