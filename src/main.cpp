@@ -21,9 +21,8 @@ void setup() {
 void loop() {
   unsigned long currentMillis = millis();
 
-  if (currentMillis - startMillis > 1000) {
-    test(startMillis, currentMillis, bno);
-    startMillis = millis();
+  if (currentMillis - startMillis >= 1000) {
+    startMillis = test(startMillis, currentMillis, bno);
   }
 
 }

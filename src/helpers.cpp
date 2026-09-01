@@ -7,13 +7,13 @@
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 
-void test(unsigned long startMillis, unsigned long currentMillis, Adafruit_BNO055 bno) {
+unsigned long test(unsigned long startMillis, unsigned long currentMillis, Adafruit_BNO055 bno) {
 
-    imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-    Serial.print(gyro.x());
-    Serial.print("   ");
     float dt = (float) currentMillis - startMillis;
     Serial.print("dt: ");
-    Serial.println(dt);
-
+    Serial.print(dt);
+    Serial.print("   ");
+    imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+    Serial.println(gyro.x());
+    return millis();
 }
