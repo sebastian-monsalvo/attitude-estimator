@@ -3,6 +3,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+#include "helpers.h"
 
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
@@ -18,16 +19,10 @@ void setup() {
 }
 
 void loop() {
-
-  currentMillis = millis();
+  unsigned long currentMillis = millis();
 
   if (currentMillis - startMillis > 1000) {
-    imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-    Serial.print(gyro.x());
-    Serial.println("");
-    float dt = (float) currentMillis - startMillis;
-
-
+    test(startMillis, currentMillis, bno);
     startMillis = millis();
   }
 
