@@ -10,7 +10,8 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55);
 unsigned long startMillis;
 unsigned long currentMillis;
 float total_roll;
-Teleplot tele;
+float total_pitch;
+float total_yaw;
 
 void setup() {
   Serial.begin(9600);
@@ -18,13 +19,16 @@ void setup() {
   bno.setExtCrystalUse(true);
   startMillis = millis();
   total_roll = 0;
+  total_pitch = 0;
+  total_yaw = 0;
+
 }
 
 void loop() {
   unsigned long currentMillis = millis();
 
   if (currentMillis - startMillis >= 100) {
-    startMillis = roll(startMillis, currentMillis, bno, total_roll, tele);
+    startMillis = roll_pitch_yaw(startMillis, currentMillis, bno, total_roll, total_pitch, total_yaw);
   }
 
 }
