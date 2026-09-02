@@ -10,7 +10,7 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55);
 unsigned long startMillis;
 unsigned long currentMillis;
 float total_roll;
-
+Teleplot tele;
 
 void setup() {
   Serial.begin(9600);
@@ -23,8 +23,8 @@ void setup() {
 void loop() {
   unsigned long currentMillis = millis();
 
-  if (currentMillis - startMillis >= 1000) {
-    startMillis = roll(startMillis, currentMillis, bno, total_roll);
+  if (currentMillis - startMillis >= 100) {
+    startMillis = roll(startMillis, currentMillis, bno, total_roll, tele);
   }
 
 }
