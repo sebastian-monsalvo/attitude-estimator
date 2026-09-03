@@ -4,6 +4,7 @@
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 #include "helpers.h"
+#include <BasicLinearAlgebra.h>
 
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
@@ -12,6 +13,9 @@ unsigned long currentMillis;
 float total_roll;
 float total_pitch;
 float total_yaw;
+BLA::Matrix<3> angles = {45, 60, 60};
+BLA::Matrix<6> y = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
 
 void setup() {
   Serial.begin(9600);
@@ -21,7 +25,6 @@ void setup() {
   total_roll = 0;
   total_pitch = 0;
   total_yaw = 0;
-
 }
 
 void loop() {
@@ -31,4 +34,10 @@ void loop() {
     startMillis = roll_pitch_yaw(startMillis, currentMillis, bno, total_roll, total_pitch, total_yaw);
   }
 
+  BLA::Matrix<3> angles_prev = angles;
+  angles = f(angles_prev);
+  Serial.print("angles: ");
+  Serial.println(angles);
+
+  y = g(angles_prev, angles, 0.1);
 }
