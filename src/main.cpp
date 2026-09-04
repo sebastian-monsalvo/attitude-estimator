@@ -13,7 +13,7 @@ unsigned long currentMillis;
 float total_roll;
 float total_pitch;
 float total_yaw;
-BLA::Matrix<3> angles = {45, 60, 60};
+BLA::Matrix<3> angles = {0, 0, 0};
 BLA::Matrix<6> y = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 
@@ -40,4 +40,8 @@ void loop() {
   Serial.println(angles);
 
   y = g(angles_prev, angles, 0.1);
+  Serial.print("y: ");
+  Serial.println(y);
+
+  
 }

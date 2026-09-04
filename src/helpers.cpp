@@ -1,4 +1,4 @@
-#include <StandardCplusplus.h>
+// #include <StandardCplusplus.h>
 #include <vector>
 #include <cmath>
 #include <Wire.h>
@@ -87,11 +87,11 @@ BLA::Matrix<6> g(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles, float dt) {
     R(2, 1) = -cos(theta) * sin(phi);
     R(2, 2) = cos(theta) * cos(phi);
 
-    BLA::Matrix<6, 3> B_inv_over_R = B_inv && R;
-    BLA::Matrix<3, 3> empty;
-    empty.Fill(0.0);
-    BLA::Matrix<6, 3> B_inv_over_zero = B_inv && empty;
+    BLA::Matrix<3> angular_velocities = B_inv * angles - B_inv * angles_prev;
+    BLA::Matrix<3> gravity = {0.0, 0.0, -9.81};
+    BLA::Matrix<3> accelerations = R * gravity;
+
+    result = angular_velocities && accelerations;
 
     return result;
-
 }
