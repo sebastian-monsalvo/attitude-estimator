@@ -36,12 +36,12 @@ void loop() {
 
   BLA::Matrix<3> angles_prev = angles;
   angles = f(angles_prev);
-  Serial.print("angles: ");
-  Serial.println(angles);
+  // Serial.print("angles: ");
+  // Serial.println(angles);
 
   y = g(angles_prev, angles, 0.1);
-  Serial.print("y: ");
-  Serial.println(y);
+  // Serial.print("y: ");
+  // Serial.println(y);
 
   
 }

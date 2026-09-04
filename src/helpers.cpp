@@ -12,6 +12,7 @@ unsigned long roll_pitch_yaw(unsigned long startMillis, unsigned long currentMil
     float dt = (float) currentMillis - startMillis;
 
     imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+    imu::Vector<3> accel = bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
     float total_roll_prev = total_roll;
     float total_pitch_prev = total_pitch;
     float total_yaw_prev = total_yaw;
@@ -38,17 +39,17 @@ unsigned long roll_pitch_yaw(unsigned long startMillis, unsigned long currentMil
         total_yaw = total_yaw;
     }
 
-    // Serial.print(">dt:");
-    // Serial.println(dt);
+    Serial.print(">dt:");
+    Serial.println(dt);
 
-    // Serial.print(">total_roll:");
-    // Serial.println(total_roll);
+    Serial.print(">gyro_x:");
+    Serial.println(accel.x());
 
-    // Serial.print(">total_pitch:");
-    // Serial.println(total_pitch);
+    Serial.print(">gyro_y:");
+    Serial.println(accel.y());
 
-    // Serial.print(">total_yaw:");
-    // Serial.println(total_yaw);
+    Serial.print(">gyro_z:");
+    Serial.println(accel.z());
 
     return millis();
 }
@@ -92,6 +93,15 @@ BLA::Matrix<6> g(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles, float dt) {
     BLA::Matrix<3> accelerations = R * gravity;
 
     result = angular_velocities && accelerations;
+
+    return result;
+}
+
+BLA::Matrix<6, 6> R(){
+    BLA::Matrix<6, 6> result;
+    result.Fill(0);
+
+    result(0, 0);
 
     return result;
 }
