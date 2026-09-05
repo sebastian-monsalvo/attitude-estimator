@@ -66,6 +66,7 @@ BLA::Matrix<6> g(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles, float dt) {
     BLA::Matrix<6> result;
     result.Fill(0.0);
 
+    dt = dt / 1000.0;
     float phi = angles(0) * PI / 180.0; //convert to radians so sin and cos work
     float theta = angles(1) * PI / 180.0;
     float psi = angles(2) * PI / 180.0;
@@ -134,6 +135,7 @@ BLA::Matrix<6, 3> calculate_C(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles,
     BLA::Matrix<3, 3> top_half;
     top_half.Fill(0);
 
+    dt = dt / 1000.0;
     float phi = angles(0) * PI / 180.0; //convert to radians so sin and cos work
     float theta = angles(1) * PI / 180.0;
     float psi = angles(2) * PI / 180.0;
