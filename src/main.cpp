@@ -15,6 +15,7 @@ float total_pitch;
 float total_yaw;
 BLA::Matrix<3> angles = {0, 0, 0};
 BLA::Matrix<6> y = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+BLA::Matrix<6, 6> R;
 
 
 void setup() {
@@ -25,6 +26,7 @@ void setup() {
   total_roll = 0;
   total_pitch = 0;
   total_yaw = 0;
+  R = calculate_R();
 }
 
 void loop() {

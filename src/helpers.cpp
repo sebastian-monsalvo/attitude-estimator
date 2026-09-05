@@ -1,6 +1,3 @@
-// #include <StandardCplusplus.h>
-#include <vector>
-#include <cmath>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
@@ -97,11 +94,16 @@ BLA::Matrix<6> g(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles, float dt) {
     return result;
 }
 
-BLA::Matrix<6, 6> R(){
+BLA::Matrix<6, 6> calculate_R(){
     BLA::Matrix<6, 6> result;
     result.Fill(0);
 
-    result(0, 0);
+    result(0, 0) = sq(0.6);
+    result(1, 1) = sq(0.6);
+    result(2, 2) = sq(0.6);
+    result(3, 3) = sq(0.01);
+    result(4, 4) = sq(0.01);
+    result(5, 5) = sq(0.025);
 
     return result;
 }
