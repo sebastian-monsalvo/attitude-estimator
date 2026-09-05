@@ -107,3 +107,17 @@ BLA::Matrix<6, 6> calculate_R(){
 
     return result;
 }
+
+BLA::Matrix<6, 6> calculate_Q() {
+    BLA::Matrix<6, 6> result;
+    result.Fill(0);
+
+    result(0, 0) = sq(1.0); // like maybe i rotate the IMU and it is 1 degree off
+    result(1, 1) = sq(1.0);
+    result(2, 2) = sq(1.0);
+    result(3, 3) = sq(1.0); // lit guessing std for accel vector. i lift imu with 10 m/s^2 but it slips and it is 9 m/s^2. perhaps i should lower these later.
+    result(4, 4) = sq(1.0);
+    result(5, 5) = sq(1.0);
+
+    return result;
+}

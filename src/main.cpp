@@ -16,6 +16,7 @@ float total_yaw;
 BLA::Matrix<3> angles = {0, 0, 0};
 BLA::Matrix<6> y = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 BLA::Matrix<6, 6> R;
+BLA::Matrix<6, 6> Q;
 
 
 void setup() {
@@ -27,6 +28,9 @@ void setup() {
   total_pitch = 0;
   total_yaw = 0;
   R = calculate_R();
+  Q = calculate_Q();
+
+  Serial.println(Q);
 }
 
 void loop() {

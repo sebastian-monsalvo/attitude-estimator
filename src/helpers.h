@@ -14,3 +14,5 @@ BLA::Matrix<3> f(BLA::Matrix<3> angles);
 BLA::Matrix<6> g(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles, float dt);
 
 BLA::Matrix<6, 6> calculate_R();
+
+BLA::Matrix<6, 6> calculate_Q();
