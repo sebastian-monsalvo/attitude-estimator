@@ -36,17 +36,17 @@ unsigned long roll_pitch_yaw(unsigned long startMillis, unsigned long currentMil
         total_yaw = total_yaw;
     }
 
-    Serial.print(">dt:");
-    Serial.println(dt);
+    // Serial.print(">dt:");
+    // Serial.println(dt);
 
-    Serial.print(">gyro_x:");
-    Serial.println(accel.x());
+    // Serial.print(">gyro_x:");
+    // Serial.println(accel.x());
 
-    Serial.print(">gyro_y:");
-    Serial.println(accel.y());
+    // Serial.print(">gyro_y:");
+    // Serial.println(accel.y());
 
-    Serial.print(">gyro_z:");
-    Serial.println(accel.z());
+    // Serial.print(">gyro_z:");
+    // Serial.println(accel.z());
 
     return millis();
 }
@@ -162,4 +162,12 @@ BLA::Matrix<6, 3> calculate_C(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles,
 
     return top_half && bottom_half;
     
+}
+
+BLA::Matrix<6> get_y(Adafruit_BNO055 bno) {
+    imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+    imu::Vector<3> accel = bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY); // change to accel after calibrating IMU
+
+    BLA::Matrix<6> y = {gyro.x(), gyro.y(), gyro.z(), accel.x(), accel.y(), accel.z()};
+    return y;
 }
