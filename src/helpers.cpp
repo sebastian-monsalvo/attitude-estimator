@@ -108,16 +108,13 @@ BLA::Matrix<6, 6> calculate_R(){
     return result;
 }
 
-BLA::Matrix<6, 6> calculate_Q() {
-    BLA::Matrix<6, 6> result;
+BLA::Matrix<3, 3> calculate_Q() {
+    BLA::Matrix<3, 3> result;
     result.Fill(0);
 
     result(0, 0) = sq(1.0); // like maybe i rotate the IMU and it is 1 degree off
     result(1, 1) = sq(1.0);
     result(2, 2) = sq(1.0);
-    result(3, 3) = sq(1.0); // lit guessing std for accel vector. i lift imu with 10 m/s^2 but it slips and it is 9 m/s^2. perhaps i should lower these later.
-    result(4, 4) = sq(1.0);
-    result(5, 5) = sq(1.0);
 
     return result;
 }
@@ -131,4 +128,38 @@ BLA::Matrix<3, 3> calculate_A() {
     result(2, 2) = 1.0;
 
     return result;
+}
+
+BLA::Matrix<6, 3> calculate_C(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles, float dt) {
+    BLA::Matrix<3, 3> top_half;
+    top_half.Fill(0);
+
+    float phi = angles(0) * PI / 180.0; //convert to radians so sin and cos work
+    float theta = angles(1) * PI / 180.0;
+    float psi = angles(2) * PI / 180.0;
+
+    BLA::Matrix<3> d_angles_dt = (angles - angles_prev) / dt;
+    float phi_dot = d_angles_dt(0);
+    float theta_dot = d_angles_dt(1);
+
+    top_half(0, 1) = phi_dot * cos(psi) * (-sin(theta));
+    top_half(0, 2) = phi_dot * cos(theta) * (-sin(psi)) + theta_dot * cos(psi);
+    top_half(1, 1) = -phi_dot * sin(psi) * (-sin(theta));
+    top_half(1, 2) = -phi_dot * cos(theta) * cos(psi) + phi_dot * (-sin(psi));
+    top_half(2, 1) = phi_dot * cos(theta);
+    
+    BLA::Matrix<3, 3> bottom_half;
+    bottom_half.Fill(0);
+    bottom_half(0, 0) = -9.81 * (-cos(psi) * sin(theta) * (-sin(theta)) + sin(psi) * cos(phi));
+    bottom_half(0, 1) = -9.81 * (-cos(psi) * cos(theta) * cos(phi));
+    bottom_half(0, 2) = -9.81 * (sin(psi) * sin(theta) * cos(phi) + (-sin(psi) * sin(phi)));
+    bottom_half(1, 0) = -9.81 * (sin(psi) * sin(theta) * (-sin(phi)) + cos(psi) * cos(phi));
+    bottom_half(1, 1) = -9.81 * (sin(psi) * cos(theta) * cos(phi));
+    bottom_half(1, 2) = -9.81 * (cos(psi) * sin(theta) * cos(phi) + (-sin(psi)) * sin(phi));
+    bottom_half(1, 3) = -9.81 * (cos(psi) * sin(theta) * cos(phi) + (-sin(psi)) * sin(phi));
+    bottom_half(2, 0) = -9.81 * (cos(theta) * (-sin(phi)));
+    bottom_half(2, 1) = -9.81 * (-sin(theta) * cos(phi));
+
+    return top_half && bottom_half;
+    
 }

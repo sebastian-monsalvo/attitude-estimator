@@ -16,8 +16,9 @@ float total_yaw;
 BLA::Matrix<3> angles = {0, 0, 0};
 BLA::Matrix<6> y = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 BLA::Matrix<6, 6> R;
-BLA::Matrix<6, 6> Q;
+BLA::Matrix<3, 3> Q;
 BLA:: Matrix<3, 3> A;
+BLA:: Matrix<6, 3> C;
 
 
 void setup() {
@@ -43,12 +44,8 @@ void loop() {
 
   BLA::Matrix<3> angles_prev = angles;
   angles = f(angles_prev);
-  // Serial.print("angles: ");
-  // Serial.println(angles);
 
   y = g(angles_prev, angles, 0.1);
-  // Serial.print("y: ");
-  // Serial.println(y);
-
   
+  C = calculate_C(angles_prev, angles, 0.1);
 }
