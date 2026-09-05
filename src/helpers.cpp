@@ -121,3 +121,14 @@ BLA::Matrix<6, 6> calculate_Q() {
 
     return result;
 }
+
+BLA::Matrix<3, 3> calculate_A() {
+    BLA::Matrix<3, 3> result;
+    result.Fill(0);
+
+    result(0, 0) = 1.0;
+    result(1, 1) = 1.0;
+    result(2, 2) = 1.0;
+
+    return result;
+}

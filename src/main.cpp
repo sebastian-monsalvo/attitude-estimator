@@ -17,6 +17,7 @@ BLA::Matrix<3> angles = {0, 0, 0};
 BLA::Matrix<6> y = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 BLA::Matrix<6, 6> R;
 BLA::Matrix<6, 6> Q;
+BLA:: Matrix<3, 3> A;
 
 
 void setup() {
@@ -29,8 +30,8 @@ void setup() {
   total_yaw = 0;
   R = calculate_R();
   Q = calculate_Q();
-
-  Serial.println(Q);
+  A = calculate_A();
+  
 }
 
 void loop() {
