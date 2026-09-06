@@ -109,6 +109,10 @@ BLA::Matrix<6, 6> calculate_R(){
     result(4, 4) = sq(0.01);
     result(5, 5) = sq(0.025);
 
+    // tuning
+    float k = 1.0;
+    result = result * k;
+
     return result;
 }
 
@@ -116,9 +120,13 @@ BLA::Matrix<3, 3> calculate_Q() {
     BLA::Matrix<3, 3> result;
     result.Fill(0);
 
-    result(0, 0) = sq(1.0); // like maybe i rotate the IMU and it is 1 degree off
-    result(1, 1) = sq(1.0);
-    result(2, 2) = sq(1.0);
+    result(0, 0) = sq(1); // like maybe i rotate the IMU and it is 1 degree off
+    result(1, 1) = sq(1);
+    result(2, 2) = sq(1);
+
+    // tuning
+    float k = 1.0;
+    result = result * k;
 
     return result;
 }
