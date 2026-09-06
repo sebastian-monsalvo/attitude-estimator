@@ -63,10 +63,13 @@ BLA::Matrix<3> f(BLA::Matrix<3> angles) {
 }
 
 BLA::Matrix<6> g(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles, float dt) {
+    // angles passed in degrees
+    // dt passed in ms
+    
     BLA::Matrix<6> result;
     result.Fill(0.0);
 
-    dt = dt / 1000.0;
+    dt = dt / 1000.0; // convert to s
     float phi = angles(0) * PI / 180.0; //convert to radians so sin and cos work
     float theta = angles(1) * PI / 180.0;
     float psi = angles(2) * PI / 180.0;
@@ -99,10 +102,10 @@ BLA::Matrix<6, 6> calculate_R(){
     BLA::Matrix<6, 6> result;
     result.Fill(0);
 
-    result(0, 0) = sq(0.6);
+    result(0, 0) = sq(0.6); // 1/s^2 = deg^2 / s^2
     result(1, 1) = sq(0.6);
     result(2, 2) = sq(0.6);
-    result(3, 3) = sq(0.01);
+    result(3, 3) = sq(0.01); // (m/s^2)^2 = m^2 / s^4
     result(4, 4) = sq(0.01);
     result(5, 5) = sq(0.025);
 
@@ -132,19 +135,22 @@ BLA::Matrix<3, 3> calculate_A() {
 }
 
 BLA::Matrix<6, 3> calculate_C(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles, float dt) {
+    // angles passed in degrees
+    // dt passed in ms
+    
     BLA::Matrix<3, 3> top_half;
     top_half.Fill(0);
 
-    dt = dt / 1000.0;
+    dt = dt / 1000.0; // convert to s
     float phi = angles(0) * PI / 180.0; //convert to radians so sin and cos work
     float theta = angles(1) * PI / 180.0;
     float psi = angles(2) * PI / 180.0;
 
-    BLA::Matrix<3> d_angles_dt = (angles - angles_prev) / dt;
+    BLA::Matrix<3> d_angles_dt = (angles - angles_prev) / dt; // these are in degrees / s
     float phi_dot = d_angles_dt(0);
     float theta_dot = d_angles_dt(1);
 
-    top_half(0, 1) = phi_dot * cos(psi) * (-sin(theta));
+    top_half(0, 1) = phi_dot * cos(psi) * (-sin(theta)); // deg / s = 1/s
     top_half(0, 2) = phi_dot * cos(theta) * (-sin(psi)) + theta_dot * cos(psi);
     top_half(1, 1) = -phi_dot * sin(psi) * (-sin(theta));
     top_half(1, 2) = -phi_dot * cos(theta) * cos(psi) + phi_dot * (-sin(psi));
@@ -152,7 +158,7 @@ BLA::Matrix<6, 3> calculate_C(BLA::Matrix<3> angles_prev, BLA::Matrix<3> angles,
     
     BLA::Matrix<3, 3> bottom_half;
     bottom_half.Fill(0);
-    bottom_half(0, 0) = -9.81 * (-cos(psi) * sin(theta) * (-sin(theta)) + sin(psi) * cos(phi));
+    bottom_half(0, 0) = -9.81 * (-cos(psi) * sin(theta) * (-sin(theta)) + sin(psi) * cos(phi)); // m/s^2
     bottom_half(0, 1) = -9.81 * (-cos(psi) * cos(theta) * cos(phi));
     bottom_half(0, 2) = -9.81 * (sin(psi) * sin(theta) * cos(phi) + (-sin(psi) * sin(phi)));
     bottom_half(1, 0) = -9.81 * (sin(psi) * sin(theta) * (-sin(phi)) + cos(psi) * cos(phi));
