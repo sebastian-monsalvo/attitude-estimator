@@ -53,12 +53,6 @@ unsigned long roll_pitch_yaw(unsigned long startMillis, unsigned long currentMil
 
 BLA::Matrix<3> f(BLA::Matrix<3> angles) {
     BLA::Matrix<3> result = angles;
-    BLA::Matrix<3,3> identity;
-    identity.Fill(0.0);
-    identity(0,0) = 1.0;
-    identity(1,1) = 1.0;
-    identity(2,2) = 1.0;
-    result = identity * result;
     return result;
 }
 
@@ -125,7 +119,7 @@ BLA::Matrix<3, 3> calculate_Q() {
     result(2, 2) = sq(1);
 
     // tuning
-    float k = 1.0;
+    float k = 10.0;
     result = result * k;
 
     return result;
@@ -184,6 +178,6 @@ BLA::Matrix<6> get_y(Adafruit_BNO055 bno) {
     imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
     imu::Vector<3> accel = bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY); // change to accel after calibrating IMU
 
-    BLA::Matrix<6> y = {gyro.x(), gyro.y(), gyro.z(), accel.x(), accel.y(), accel.z()};
+    BLA::Matrix<6> y = {-gyro.x(), -gyro.y(), gyro.z(), accel.x(), accel.y(), -accel.z()};
     return y;
 }

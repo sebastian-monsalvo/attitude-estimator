@@ -54,7 +54,7 @@ void loop() {
   currentMillis = millis();
   dt = (float) currentMillis - startMillis;
 
-  if (dt >= 100) {
+  if (dt >= 10) {
     
     // Prediction
     x_10 = f(x_0);
@@ -81,6 +81,9 @@ void loop() {
 
     Serial.print(">Psi: ");
     Serial.println(x_11(2));
+
+    Serial.print(">dt: ");
+    Serial.println(dt);
 
     startMillis = millis();
   }
