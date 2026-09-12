@@ -104,7 +104,7 @@ BLA::Matrix<6, 6> calculate_R(){
     result(5, 5) = sq(0.025);
 
     // tuning
-    float k = 1.0;
+    float k = 100.0;
     result = result * k;
 
     return result;
@@ -119,7 +119,7 @@ BLA::Matrix<3, 3> calculate_Q() {
     result(2, 2) = sq(1);
 
     // tuning
-    float k = 10.0;
+    float k = 1.0;
     result = result * k;
 
     return result;
