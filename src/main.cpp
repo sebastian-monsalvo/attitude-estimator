@@ -16,16 +16,16 @@ float total_yaw;
 float dt;
 BLA::Matrix<3> angles = {0, 0, 0};
 BLA::Matrix<6> y = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-BLA::Matrix<6, 6> R;
-BLA::Matrix<3, 3> Q;
-BLA:: Matrix<3, 3> A;
-BLA:: Matrix<3, 3> A_T;
+BLA::Matrix<6, 6> R = calculate_R();
+BLA::Matrix<3, 3> Q = calculate_Q();
+BLA:: Matrix<3, 3> A = calculate_A();
+BLA:: Matrix<3, 3> A_T = ~A;
 BLA:: Matrix<6, 3> C;
 BLA:: Matrix<3, 6> C_T;
 
 // Initialization
-BLA::Matrix<3> x_neg = {0.0, 0.0, 0.0};
-BLA::Matrix<3> x_0 = {0.0, 0.0, 0.0};
+BLA::Matrix<3> x_neg = {4.8300, -8.4200, 59.6300};
+BLA::Matrix<3> x_0 = {90, 0, 0};
 BLA::Matrix<3, 3> P_0 = calculate_A(); // 3x3 identity for now
 
 BLA::Matrix<3> x_10;
@@ -43,11 +43,6 @@ void setup() {
   total_roll = 0;
   total_pitch = 0;
   total_yaw = 0;
-  R = calculate_R();
-  Q = calculate_Q();
-  A = calculate_A();
-  A_T = ~A;
-  K.Fill(0);
 }
 
 void loop() {
@@ -55,7 +50,7 @@ void loop() {
   currentMillis = millis();
   dt = (float) currentMillis - startMillis;
 
-  if (dt >= 10) {
+  if (dt >= 1000) {
     
     // Prediction
     x_10 = f(x_0);
@@ -71,28 +66,30 @@ void loop() {
     P_11 = P_10 - K * C * P_10;
 
     // for t + 1
-    x_neg = x_0;
+    // x_neg = x_0;
     P_0 = P_11;
-    x_0 = x_11;
+    // x_0 = x_11;
 
     // debugging
-    Serial.print(">Phi: ");
-    Serial.println(x_11(0));
-    // Serial.println(test(0));
+    // Serial.print(">Phi: ");
+    // Serial.println(x_11(0));
+    Serial.print(test(3));
+    Serial.print("  ");
 
 
-    Serial.print(">Theta: ");
-    Serial.println(x_11(1));
-    // Serial.println(test(1));
+    // Serial.print(">Theta: ");
+    // Serial.println(x_11(1));
+    Serial.print(test(4));
+    Serial.print("  ");
 
 
-    Serial.print(">Psi: ");
-    Serial.println(x_11(2));
-    // Serial.println(test(2));
+    // Serial.print(">Psi: ");
+    // Serial.println(x_11(2));
+    Serial.println(test(5));
 
 
-    Serial.print(">dt: ");
-    Serial.println(dt);
+    // Serial.print(">dt: ");
+    // Serial.println(dt);
 
     startMillis = millis();
   }
