@@ -96,15 +96,15 @@ BLA::Matrix<6, 6> calculate_R(){
     BLA::Matrix<6, 6> result;
     result.Fill(0);
 
-    result(0, 0) = sq(0.6); // 1/s^2 = deg^2 / s^2
-    result(1, 1) = sq(0.6);
-    result(2, 2) = sq(0.6);
+    result(0, 0) = sq(0.06); // 1/s^2 = deg^2 / s^2
+    result(1, 1) = sq(0.06);
+    result(2, 2) = sq(0.06);
     result(3, 3) = sq(0.01); // (m/s^2)^2 = m^2 / s^4
     result(4, 4) = sq(0.01);
     result(5, 5) = sq(0.025);
 
     // tuning
-    float k = 100.0;
+    float k = 1.0;
     result = result * k;
 
     return result;
@@ -119,7 +119,7 @@ BLA::Matrix<3, 3> calculate_Q() {
     result(2, 2) = sq(1);
 
     // tuning
-    float k = 1.0;
+    float k = 0.1;
     result = result * k;
 
     return result;
