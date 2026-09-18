@@ -9,8 +9,8 @@ while (True):
     dataPacket = arduinoData.readline()
     dataPacket = str(dataPacket, 'utf-8')
     splitPacket = dataPacket.split(",")
-    # x = float(splitPacket[0])
-    # y = float(splitPacket[1])
+    if ((len(splitPacket) != 6)):
+        continue
     accelerometer = float(splitPacket[0])
     gyroscope = float(splitPacket[1])
     magnetometer = float(splitPacket[2])
